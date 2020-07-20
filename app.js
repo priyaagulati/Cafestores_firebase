@@ -10,11 +10,11 @@ function renderCafe(doc){
 
     li.setAttribute('data-id', doc.id);
     name.textContent = doc.data().Name;
-    city.textContent = doc.data().City;
+    // city.textContent = doc.data().City;
     cross.textContent = 'x';
 
     li.appendChild(name);
-    li.appendChild(city);
+    // li.appendChild(city);
     li.appendChild(cross);
     cafeList.appendChild(li);
 
@@ -22,33 +22,24 @@ function renderCafe(doc){
     cross.addEventListener('click', (e)=> {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute('data-id');
-        db.collection('Cafes').doc(id).delete();
+        db.collection('Todos').doc(id).delete();
     })
 }
-
-// getting data
-//db.collection('Cafes').where('City', '>=', 'Guwahati').get().
-// db.collection('Cafes').where('City', '==', 'Guwahati').orderBy('Name').get().then(snapshot => {
-//     snapshot.docs.forEach(doc => {
-//         renderCafe(doc);
-//     });
-// });
-
 
 
 // saving data
 form.addEventListener('submit', (e)=> {
     e.preventDefault();
-    db.collection('Cafes').add({
+    db.collection('Todos').add({
         Name: form.Name.value,
-        City: form.City.value
+        // City: form.City.value
     })
     form.Name.value = '';
-    form.City.value = '';
+    // form.City.value = '';
 });
 
 //real-time listener
-db.collection('Cafes').orderBy('Name').onSnapshot(snapshot => {
+db.collection('Todos').orderBy('Name').onSnapshot(snapshot => {
     let changes = snapshot.docChanges();
     changes.forEach(change => {
         if(change.type == 'added'){
